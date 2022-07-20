@@ -1,0 +1,66 @@
+version: "3"
+services:
+  r-calendar:
+    build:
+      dockerfile: ./${LANGUAGE:-go}/r-calendar/Dockerfile
+      context: ./
+    ports:
+      - "3000:3000"
+    depends_on:
+      - r-calendar-mysql
+      - orecoco-reserve
+    environment:
+      MYSQL_HOST: r-calendar-mysql
+      MYSQL_PORT: 3306
+      ORECOCO_RESERVE_URL: http://orecoco-reserve:3003
+  orecoco-reserve:
+    build:
+      dockerfile: ./${LANGUAGE:-go}/orecoco-reserve/Dockerfile
+      context: ./
+    ports:
+      - "3003:3003"
+    depends_on:
+      - orecoco-reserve-mysql
+    environment:
+      MYSQL_HOST: orecoco-reserve-mysql
+      MYSQL_PORT: 3308
+      ORECOCO_PORT: 3003
+  r-calendar-mysql:
+    platform: linux/x86_64
+    image: mysql:5.7
+    volumes:
+      - ../mysql_r-calendar/data:/var/lib/mysql
+      - ../mysql_r-calendar/db:/docker-entrypoint-initdb.d
+      - ../logs/mysql_r-calendar:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: r-calendar
+      MYSQL_USER: r-isucon
+      MYSQL_PASSWORD: r-isucon
+      TZ: UTC
+    ports:
+      - "3306:3306"
+  orecoco-reserve-mysql:
+    platform: linux/x86_64
+    image: mysql:5.7
+    volumes:
+      - ../mysql_orecoco-reserve/data:/var/lib/mysql
+      - ../mysql_orecoco-reserve/db:/docker-entrypoint-initdb.d
+      - ../logs/mysql_orecoco-reserve:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: orecoco-reserve
+      MYSQL_USER: r-isucon
+      MYSQL_PASSWORD: r-isucon
+      MYSQL_TCP_PORT: 3308
+      TZ: UTC
+    ports:
+      - "3308:3308"
+    expose:
+      - 3308
+  frontend:
+    build:
+      dockerfile: ./frontend/Dockerfile
+      context: ./
+    ports:
+      - 8080:80

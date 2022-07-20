@@ -1,0 +1,66 @@
+---
+- name: Create isucon group
+  become: yes
+  become_user: root
+  group:
+    name: isucon
+    gid: 1100
+    state: present
+    system: no
+
+- name: Create isucon user
+  become: yes
+  become_user: root
+  user:
+    name: isucon
+    uid: 1100
+    group: isucon
+    password: isucon
+    home: /home/isucon
+    shell: /bin/bash
+    state: present
+    system: no
+
+- name: Add sudoers
+  become: yes
+  become_user: root
+  copy:
+    content: "isucon  ALL=(ALL) NOPASSWD:ALL\n"
+    dest: /etc/sudoers.d/99-isucon-user
+    owner: root
+    group: root
+    mode: 0440
+
+- name: replace fast repository
+  replace:
+    path: /etc/apt/sources.list
+    regexp: 'http://archive.ubuntu.com/ubuntu'
+    replace: 'http://ftp.jaist.ac.jp/pub/Linux/ubuntu/'
+    backup: yes
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: "install"
+  apt:
+    name:
+      - tar
+      - unzip
+      - python3
+      - python3-pip
+
+- name: Create r-isucon dir
+  file: path=/home/isucon/r-isucon state=directory owner=isucon group=isucon mode=0777
+
+- name: "roles/common/tasks/risucon: Create directory"
+  file:
+    path: /tmp/r-isucon
+    state: directory
+
+- name: "roles/common/tasks/risucon: Deploy isucon/risucon"
+  unarchive:
+    src: files-generated/r-isucon.zip
+    dest: /home/isucon/r-isucon/
+    owner: isucon
+    group: isucon

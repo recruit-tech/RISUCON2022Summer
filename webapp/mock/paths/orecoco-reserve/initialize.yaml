@@ -1,0 +1,28 @@
+post:
+  description: Initialize orecoco-reserve server
+  operationId: PostInitialize
+  responses:
+    "200":
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - token
+            properties:
+              language:
+                type: string
+                example: XXXXXXXX
+    "400":
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: Bad request

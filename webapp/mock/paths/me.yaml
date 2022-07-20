@@ -1,0 +1,33 @@
+get:
+  description: Get my own user data
+  operationId: GetMe
+  responses:
+    "200":
+      description: User found
+      content:
+        application/json:
+          schema:
+            $ref: "../components.yaml#/components/schemas/User"
+put:
+  description: Update my user data
+  operationId: UpdateMe
+  requestBody:
+    content:
+      "application/json":
+        schema:
+          $ref: "../components.yaml#/components/schemas/UserProperties"
+  responses:
+    "200":
+      description: Success
+    "400":
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              example: Bad request

@@ -1,0 +1,19 @@
+get:
+  description: Get details of specific user by id
+  operationId: GetUserId
+  parameters:
+    - name: id
+      in: path
+      description: id of user to fetch
+      required: true
+      schema:
+        $ref: "../components.yaml#/components/schemas/ID"
+  responses:
+    "200":
+      description: User found
+      content:
+        application/json:
+          schema:
+            $ref: "../components.yaml#/components/schemas/User"
+    "404":
+      description: User not found

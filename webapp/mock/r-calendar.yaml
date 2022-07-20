@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: R-ISUCON 2021 Summer
+  description: API mock for R-ISUCON 2021 Summer r-calendar
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/mit-license.php
+servers:
+  - url: http://localhost:3000
+paths:
+  /initialize:
+    $ref: ./paths/initialize.yaml
+  /login:
+    $ref: ./paths/login.yaml
+  /logout:
+    $ref: ./paths/logout.yaml
+  /me:
+    $ref: ./paths/me.yaml
+  /me/icon:
+    $ref: ./paths/me_icon.yaml
+  /user:
+    $ref: ./paths/user.yaml
+  /user/{id}:
+    $ref: ./paths/user_id.yaml
+  /schedule:
+    $ref: ./paths/schedule.yaml
+  /schedule/{id}:
+    $ref: ./paths/schedule_id.yaml
+  /calendar/{user_id}:
+    $ref: ./paths/calendar_id.yaml
+
+x-json-schema-faker:
+  use-examples-value: true

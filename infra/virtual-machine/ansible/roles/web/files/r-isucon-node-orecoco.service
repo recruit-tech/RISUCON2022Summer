@@ -1,0 +1,18 @@
+[Unit]
+Description=r-isucon-go
+After=syslog.target
+
+[Service]
+WorkingDirectory=/home/isucon/r-isucon/webapp/nodejs/orecoco-reserve
+EnvironmentFile=/home/isucon/env.sh
+Environment=PATH=/usr/local/node/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+Environment=NODE_ENV=production
+PIDFile=/home/isucon/r-isucon/webapp/nodejs/orecoco-reserve/server.pid
+
+User=isucon
+Group=isucon
+ExecStart=/usr/local/node/bin/npm run dev
+ExecStop=/bin/kill -s QUIT $MAINPID
+
+[Install]
+WantedBy=multi-user.target

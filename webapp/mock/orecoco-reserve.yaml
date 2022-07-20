@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: R-ISUCON 2021 Summer
+  description: API mock for R-ISUCON 2021 Summer orecoco-reserve
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/mit-license.php
+servers:
+  - url: http://localhost:3003
+paths:
+  /initialize:
+    $ref: /paths/orecoco-reserve/initialize.yaml
+  /room:
+    $ref: /paths/orecoco-reserve/room.yaml
+
+x-json-schema-faker:
+  use-examples-value: true

@@ -1,0 +1,41 @@
+post:
+  description: Login to app
+  operationId: PostLogin
+  requestBody:
+    content:
+      "application/json":
+        schema:
+          $ref: "../components.yaml#/components/schemas/Certification"
+  responses:
+    "201":
+      description: Success
+      headers:
+        Set-Cookie:
+          description: Attach session for agent
+          schema:
+            type: string
+          example: "jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifQ.omf17qvmuTE1LCNEGdXgR948fMbP01RR87_fple3f1k; Path=/; HttpOnly"
+    "400":
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: Bad request
+    "401":
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: Wrong email or password

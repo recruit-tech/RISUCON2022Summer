@@ -1,0 +1,28 @@
+post:
+  description: Initialize server
+  operationId: PostInitialize
+  responses:
+    "200":
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - language
+            properties:
+              language:
+                type: string
+                example: go
+    "400":
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: Bad request

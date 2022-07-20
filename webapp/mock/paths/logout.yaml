@@ -1,0 +1,18 @@
+post:
+  description: Logout from app
+  operationId: PostLogout
+  responses:
+    "201":
+      description: Success
+    "401":
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: Unauthorized

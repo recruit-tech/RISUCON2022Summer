@@ -1,0 +1,50 @@
+get:
+  description: Get of specific calendar by user id
+  operationId: GetCalendarId
+  parameters:
+    - name: user_id
+      in: path
+      description: -|
+        user id of the calender to fetch
+        return a day schedules of the date of `date` query
+      required: true
+      schema:
+        $ref: "../components.yaml#/components/schemas/ID"
+    - name: date
+      in: query
+      description: Date of the calendar (date counts date 1 January 1970 based on UNIX time)
+      required: true
+      schema:
+        $ref: "../components.yaml#/components/schemas/DateCount"
+  responses:
+    "200":
+      description: Calendar found
+      content:
+        application/json:
+          schema:
+            $ref: "../components.yaml#/components/schemas/Calendar"
+            example:
+              date: 18993
+              schedules:
+                - id: "00000000000000000000000000"
+                  title: Daily meeting
+                  description: to let the team plan out its work for the day
+                  start_at: 1641027600 # Jan 01 2022 09:00:00 UTC
+                  end_at: 1641029400 # Jan 01 2022 09:30:00 UTC
+                  attendees:
+                    - XXXXXXXXXXXXXXXXXXXXXXXXX0
+                    - XXXXXXXXXXXXXXXXXXXXXXXXX1
+                    - XXXXXXXXXXXXXXXXXXXXXXXXX2
+                    - XXXXXXXXXXXXXXXXXXXXXXXXXX
+                - id: "00000000000000000000000001"
+                  title: Weekly meeting
+                  description: to let the team plan out its work for the week
+                  start_at: 1641027600 # Jan 01 2022 09:00:00 UTC
+                  end_at: 1641031200 # Jan 01 2022 10:00:00 UTC
+                  attendees:
+                    - XXXXXXXXXXXXXXXXXXXXXXXXX0
+                    - XXXXXXXXXXXXXXXXXXXXXXXXX1
+                    - XXXXXXXXXXXXXXXXXXXXXXXXX2
+                    - XXXXXXXXXXXXXXXXXXXXXXXXXX
+    "404":
+      description: Calendar not found

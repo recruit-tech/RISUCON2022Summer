@@ -1,0 +1,17 @@
+{
+  "name": "@risucon2022summer/mock",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "reference": "http-server -p 3001",
+    "start": "prism mock --dynamic --port 3000 r-calendar.yaml"
+  },
+  "keywords": [],
+  "private": true,
+  "author": "progfay",
+  "license": "MIT",
+  "devDependencies": {
+    "@stoplight/prism-cli": "4.8.0",
+    "http-server": "14.1.0"
+  }
+}

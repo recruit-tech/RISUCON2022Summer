@@ -1,0 +1,44 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "frontend app",
+  "scripts": {
+    "dev": "next dev --port 8080",
+    "build": "next build",
+    "start": "next start --port 8080",
+    "export": "next export",
+    "generate": "./scripts/generate.sh && prettier --write ./src/apiClient/__generated__",
+    "lint": "next lint && prettier --check .",
+    "format": "next lint --fix && prettier --write ."
+  },
+  "keywords": [],
+  "author": "progfay",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "11.8.2",
+    "@emotion/server": "11.4.0",
+    "@emotion/styled": "11.8.1",
+    "@mui/icons-material": "5.5.0",
+    "@mui/lab": "5.0.0-alpha.72",
+    "@mui/material": "5.5.0",
+    "axios": "0.26.1",
+    "date-fns": "2.28.0",
+    "next": "12.1.0",
+    "next-http-proxy-middleware": "1.2.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "recoil": "0.6.1"
+  },
+  "devDependencies": {
+    "@tsconfig/next": "1.0.2",
+    "@types/node": "17.0.21",
+    "@types/react": "17.0.40",
+    "@types/react-dom": "17.0.13",
+    "eslint": "8.11.0",
+    "eslint-config-next": "12.1.0",
+    "eslint-config-prettier": "8.5.0",
+    "prettier": "2.5.1",
+    "typescript": "4.6.2"
+  }
+}

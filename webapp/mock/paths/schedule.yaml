@@ -1,0 +1,33 @@
+post:
+  description: Create new schedule
+  operationId: PostSchedule
+  requestBody:
+    content:
+      "application/json":
+        schema:
+          $ref: "../components.yaml#/components/schemas/ScheduleWithAttendeeIDs"
+  responses:
+    "201":
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                description: id of new schedule
+                $ref: "../components.yaml#/components/schemas/ID"
+    "400":
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: failed to create schedule

@@ -1,0 +1,198 @@
+- name: Install Nginx
+  become: yes
+  become_user: root
+  apt:
+    name: 
+    - nginx
+    update_cache: yes
+- name: Make sure pymysql is present
+  become: true # needed if the other tasks are not played as root
+  pip:
+    name: pymysql
+    state: present
+
+- name: deploy nginx.conf
+  copy:
+    src: "nginx.conf"
+    dest: "/etc/nginx/nginx.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "roles/contestant/tasks/mariadb: Install Package"
+  apt:
+    name:
+      - mariadb-common
+      - mariadb-server-10.3
+      - mariadb-server-core-10.3
+      - mariadb-client-10.3
+      - mariadb-client-core-10.3
+    update_cache: yes
+
+- name: Set mariadb root password
+  become_user: root
+  shell: |
+    mysql -uroot -proot -e  "use mysql;ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';"
+
+- name: "roles/contestant/tasks/mariadb: CreateUser"
+  become_user: root
+  mysql_user:
+    login_password: 'root'
+    name: "r-isucon"
+    password: "r-isucon"
+    priv: '*.*:ALL'
+- name: "roles/contestant/tasks/mariadb: CreateDB r-calendar"
+  become_user: root
+  mysql_db:
+    login_password: 'root'
+    name: "r-calendar"
+    state: present
+    encoding: utf8mb4
+- name: "roles/contestant/tasks/mariadb: CreateDB orecoco-reserve"
+  become_user: root
+  mysql_db:
+    login_password: 'root'
+    name: "orecoco-reserve"
+    state: present
+    encoding: utf8mb4
+
+- name: "roles/contestant/tasks/mariadb: Start mariadb-server"
+  systemd:
+    daemon_reload: "yes"
+    name: "mariadb.service"
+    state: "restarted"
+    enabled: "yes"
+
+- name: Copy env files
+  copy:
+    src: "{{ item }}"
+    dest: "/home/isucon/"
+    owner: "isucon"
+    group: "isucon"
+    mode: "0644"
+  with_items:
+    - env.sh
+    - frontend-env.sh
+
+- name: Copy service file
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  with_items:
+    - r-isucon-go-calendar.service
+    - r-isucon-go-orecoco.service
+    - r-isucon-node-calendar.service
+    - r-isucon-node-orecoco.service
+    - r-isucon-java-calendar.service
+    - r-isucon-java-orecoco.service
+
+- name: go build r-calendar
+  become: yes
+  become_user: isucon
+  args:
+    chdir: /home/isucon/r-isucon/webapp/go/r-calendar
+  environment: &env
+    PATH: "/home/isucon/bin:/home/isucon/.local/bin:/usr/local/node/bin:/usr/local/ruby/bin:/usr/local/go/bin:/home/isucon/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/snap/bin"
+  command: go build
+
+- name: go build orecoco
+  become: yes
+  become_user: isucon
+  args:
+    chdir: /home/isucon/r-isucon/webapp/go/orecoco-reserve
+  environment: *env
+  command: go build
+
+- name: node npm install orecoco
+  become: yes
+  become_user: isucon
+  args:
+    chdir: /home/isucon/r-isucon/webapp/nodejs/orecoco-reserve
+  environment: *env
+  command: npm install
+
+- name: node npm install r-calendar
+  become: yes
+  become_user: isucon
+  args:
+    chdir: /home/isucon/r-isucon/webapp/nodejs/r-calendar
+  environment: *env
+  command: npm install
+
+- name: java mvn package
+  become: yes
+  become_user: isucon
+  args:
+    chdir: /home/isucon/r-isucon/webapp/java
+  environment: *env
+  command: /usr/bin/maven/bin/mvn clean package
+
+- name: Start "r-isucon-go-calendar.service"
+  systemd:
+    daemon_reload: "yes"
+    name: "r-isucon-go-calendar.service"
+    state: "started"
+    enabled: "yes"
+
+- name: Start "r-isucon-go-orecoco.service"
+  systemd:
+    daemon_reload: "yes"
+    name: "r-isucon-go-orecoco.service"
+    state: "started"
+    enabled: "yes"
+
+- name: setup frontend
+  become: yes
+  become_user: isucon
+  args:
+    chdir: /home/isucon/r-isucon/webapp/frontend
+  environment: *env
+  command: npm install
+
+- name: build frontend
+  become: yes
+  become_user: isucon
+  args:
+    chdir: /home/isucon/r-isucon/webapp/frontend
+  environment: *env
+  command: npm run build
+
+- name: export frontend
+  become: yes
+  become_user: isucon
+  args:
+    chdir: /home/isucon/r-isucon/webapp/frontend
+  environment: *env
+  command: npm run export
+
+- name: Start "nginx"
+  systemd:
+    daemon_reload: "yes"
+    name: "nginx"
+    state: "reloaded"
+    enabled: "yes"
+
+- name: Delete files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+  - /home/isucon/r-isucon/.git
+  - /home/isucon/r-isucon/bench
+  - /home/isucon/r-isucon/worker
+  - /home/isucon/r-isucon/portal
+  - /home/isucon/r-isucon/infra
+  - /home/isucon/r-isucon/snapshots
+  - /home/isucon/r-isucon/README.md
+  - /home/isucon/r-isucon/.github
+  - /home/isucon/r-isucon/assets
+  - /tmp/risucon
+  - /home/ubuntu/.sudo_as_admin_successful
+  - /home/ubuntu/.cache
+
+- name: "roles/contestant/tasks/initialize-app: curl app initialize endpoint"
+  become_user: root
+  shell: curl -XPOST http://localhost:3000/initialize

@@ -1,0 +1,7 @@
+CALENDAR_PORT="3000"
+ORECOCO_PORT="3003"
+ORECOCO_RESERVE_URL="http://localhost:3003"
+MYSQL_PORT="3306"
+MYSQL_HOST="localhost"
+DB_USER=r-isucon
+DB_PASSWD=r-isucon

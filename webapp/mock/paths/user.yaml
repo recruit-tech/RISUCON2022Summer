@@ -1,0 +1,69 @@
+get:
+  description: Search user with any query
+  operationId: GetUser
+  parameters:
+    - name: query
+      in: query
+      description: query for searching user
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Users found
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - users
+            properties:
+              users:
+                description: searching result users (order by User.id)
+                type: array
+                items:
+                  $ref: "../components.yaml#/components/schemas/User"
+    "204":
+      description: User not found
+    "400":
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: GET parameter 'query' is required
+
+post:
+  description: Create new user
+  operationId: PostUser
+  requestBody:
+    content:
+      "application/json":
+        schema:
+          $ref: "../components.yaml#/components/schemas/UserProperties"
+  responses:
+    "201":
+      description: Success
+      headers:
+        Set-Cookie:
+          description: Attach session for agent
+          schema:
+            type: string
+          example: "jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifQ.omf17qvmuTE1LCNEGdXgR948fMbP01RR87_fple3f1k; Path=/; HttpOnly"
+    "400":
+      description: Failure
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+                example: failed to create user

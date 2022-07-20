@@ -1,0 +1,50 @@
+get:
+  description: Get details of specific user by id
+  operationId: GetScheduleId
+  parameters:
+    - name: id
+      in: path
+      description: id of schedule to fetch
+      required: true
+      schema:
+        $ref: "../components.yaml#/components/schemas/ID"
+  responses:
+    "200":
+      description: Schedule found
+      content:
+        application/json:
+          schema:
+            $ref: "../components.yaml#/components/schemas/ScheduleWithID"
+    "404":
+      description: Schedule not found
+
+put:
+  description: Update schedule data
+  operationId: UpdateScheduleId
+  parameters:
+    - name: id
+      in: path
+      description: id of schedule to update
+      required: true
+      schema:
+        $ref: "../components.yaml#/components/schemas/ID"
+  requestBody:
+    content:
+      "application/json":
+        schema:
+          $ref: "../components.yaml#/components/schemas/ScheduleWithAttendeeIDs"
+  responses:
+    "200":
+      description: Success
+    "400":
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              example: Bad request

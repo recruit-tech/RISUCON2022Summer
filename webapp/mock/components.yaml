@@ -1,0 +1,152 @@
+components:
+  schemas:
+    ID:
+      description: ULID
+      type: string
+      pattern: "^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+
+    Email:
+      description: email of user
+      type: string
+      format: email
+      x-faker: internet.email
+
+    Username:
+      description: name of user
+      type: string
+      x-faker: internet.userName
+
+    Password:
+      description: password of user
+      type: string
+      format: password
+      x-faker: internet.password
+
+    Certification:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          $ref: "#/components/schemas/Email"
+        password:
+          $ref: "#/components/schemas/Password"
+
+    UserProperties:
+      description: properties of user
+      type: object
+      required:
+        - email
+        - password
+        - name
+      properties:
+        email:
+          $ref: "#/components/schemas/Email"
+        password:
+          $ref: "#/components/schemas/Password"
+        name:
+          $ref: "#/components/schemas/Username"
+
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - name
+      properties:
+        id:
+          $ref: "#/components/schemas/ID"
+        email:
+          $ref: "#/components/schemas/Email"
+        name:
+          $ref: "#/components/schemas/Username"
+
+    DateCount:
+      description: Date of the calendar (date counts date 1 January 1970 based on UNIX time)
+      type: integer
+
+    DateTime:
+      description: Unix timestamp
+      type: integer
+      pattern: '^\d{13}$'
+      x-faker: time.recent
+
+    MeetingRoom:
+      description: name of meeting room
+      type: string
+      x-faker: word.adjective
+
+    Schedule:
+      type: object
+      required:
+        - start_at
+        - end_at
+        - title
+        - description
+      properties:
+        start_at:
+          description: time to start the schedule
+          $ref: "#/components/schemas/DateTime"
+        end_at:
+          description: time to end the schedule
+          $ref: "#/components/schemas/DateTime"
+        title:
+          description: Title of schedule
+          type: string
+          example: Daily meeting
+        description:
+          description: Description of schedule
+          type: string
+          example: to let the team plan out its work for the day
+        meeting_room:
+          description: name of meeting room linked to schedule
+          type: string
+          example: ALPHA
+
+    ScheduleWithAttendeeIDs:
+      description: Data Schedule data with array of attendee ID
+      allOf:
+        - $ref: "../components.yaml#/components/schemas/Schedule"
+        - type: object
+          required:
+            - attendees
+          properties:
+            attendees:
+              description: List of id of attendees (sort by lexical order)
+              type: array
+              items:
+                $ref: "../components.yaml#/components/schemas/ID"
+
+    ScheduleWithID:
+      description: Schedule data with ID
+      allOf:
+        - $ref: "#/components/schemas/Schedule"
+        - type: object
+          required:
+            - id
+            - attendees
+          properties:
+            id:
+              description: id of schedule
+              $ref: "#/components/schemas/ID"
+            attendees:
+              description: List of attendees (sort by email in lexical order)
+              type: array
+              items:
+                $ref: "#/components/schemas/User"
+
+    Calendar:
+      type: object
+      required:
+        - date
+        - schedules
+      properties:
+        date:
+          description: id of user who own the calendar
+          $ref: "#/components/schemas/DateCount"
+        schedules:
+          description: list of schedules that is contained by calendar (sort by Schedule.id)
+          type: array
+          items:
+            $ref: "#/components/schemas/ScheduleWithID"

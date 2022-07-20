@@ -1,0 +1,51 @@
+post:
+  description: Reserve meeting room
+  operationId: PostRoom
+  security:
+    - Bearer: []
+  requestBody:
+    content:
+      "application/json":
+        schema:
+          $ref: "#/components/schemas/RoomReserveData"
+    responses:
+      "200":
+        description: Room reserved
+      "400":
+        description: Bad request
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - message
+              properties:
+                message:
+                  type: string
+                  example: すでに予定が入っています
+      "401":
+        description: token not found
+
+components:
+  schemas:
+    RoomReserveData:
+      description: Data for reserve meeting room
+      allOf:
+        - type: object
+          required:
+            - schedule_id
+            - meeting_room_id
+            - start_at
+            - end_at
+          properties:
+            schedule_id:
+              description: schedule id
+              $ref: "../../components.yaml#/components/schemas/ID"
+            meeting_room_id:
+              description: name of meeting room
+            start_at:
+              description: meeting start time
+              $ref: "../../components.yaml#/components/schemas/DateTime"
+            end_at:
+              description: meeting end time
+              $ref: "../../components.yaml#/components/schemas/DateTime"

@@ -1,0 +1,19 @@
+put:
+  description: Update new user icon image
+  operationId: UpdateMeIcon
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required:
+            - icon
+          properties:
+            icon:
+              type: string
+              format: binary
+  responses:
+    "200":
+      description: Icon updated
+    "404":
+      description: User not found
