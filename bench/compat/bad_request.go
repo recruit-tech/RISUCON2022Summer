@@ -5,9 +5,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/model"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/random"
 	"github.com/recruit-tech/RISUCON2022Summer/bench/client"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/model"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/random"
 )
 
 func checkBadRequest(ctx context.Context, team *model.Team) error {

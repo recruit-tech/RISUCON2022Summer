@@ -9,8 +9,8 @@ import (
 	"testing"
 
 	"github.com/recruit-tech/RISUCON2022Summer/bench/fails"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/logger"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/report"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/logger"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/report"
 )
 
 var buf bytes.Buffer

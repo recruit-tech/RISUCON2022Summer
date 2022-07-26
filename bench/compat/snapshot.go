@@ -6,10 +6,10 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/fails"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/model"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/snapshot"
 	"github.com/recruit-tech/RISUCON2022Summer/bench/client"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/fails"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/model"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/snapshot"
 )
 
 func snapshotTest(ctx context.Context, team *model.Team) error {

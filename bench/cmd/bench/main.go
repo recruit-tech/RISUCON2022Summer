@@ -5,9 +5,9 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/config"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/report"
 	"github.com/recruit-tech/RISUCON2022Summer/bench"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/config"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/report"
 )
 
 func main() {

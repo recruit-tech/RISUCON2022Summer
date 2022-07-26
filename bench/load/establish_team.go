@@ -7,11 +7,11 @@ import (
 	"net"
 	"sync"
 
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/constant"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/fails"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/model"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/random"
 	"github.com/recruit-tech/RISUCON2022Summer/bench/client"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/constant"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/fails"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/model"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/random"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/xerrors"
 )

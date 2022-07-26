@@ -5,11 +5,11 @@ import (
 	"errors"
 	"math/rand"
 
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/client"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/constant"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/model"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/random"
 	"github.com/recruit-tech/RISUCON2022Summer/bench/assets"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/client"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/constant"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/model"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/random"
 )
 
 func UpdateData(ctx context.Context, team *model.Team) error {

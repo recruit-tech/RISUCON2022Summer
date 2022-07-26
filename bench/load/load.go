@@ -5,14 +5,14 @@ import (
 	"net"
 	"time"
 
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/constant"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/fails"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/logger"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/random"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/report"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/score"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/worker"
 	"github.com/recruit-tech/RISUCON2022Summer/bench/client"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/constant"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/fails"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/logger"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/random"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/report"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/score"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/worker"
 	"golang.org/x/xerrors"
 )
 

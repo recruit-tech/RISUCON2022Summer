@@ -7,10 +7,10 @@ import (
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/xerrors"
 
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/fails"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/model"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/report"
 	"github.com/recruit-tech/RISUCON2022Summer/bench/constant"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/fails"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/model"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/report"
 )
 
 func Check(ctx context.Context) (r *report.Report) {

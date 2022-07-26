@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/recruit-tech/RISUCON2022Summer/bench/model"
-	"github.com/recruit-tech-tech/RISUCON2022Summer/bench/random"
+	"github.com/recruit-tech/RISUCON2022Summer/bench/random"
 )
 
 var (
